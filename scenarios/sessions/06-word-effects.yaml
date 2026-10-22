@@ -1,0 +1,10 @@
+timeline_file: ../sample_timeline.json
+steps:
+  - say: Bleep the word saying pricing
+    answer: the first one
+    expected_status: applied
+  - say: Mute the word saying cost
+    answer: the first one
+    expected_status: applied
+  - say: Undo
+    expected_status: applied

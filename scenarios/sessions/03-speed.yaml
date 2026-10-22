@@ -1,0 +1,8 @@
+timeline_file: ../sample_timeline.json
+steps:
+  - say: Speed up from 2 seconds to 4 seconds by 2x
+    expected_status: applied
+  - say: Slow down from 5 seconds to 6 seconds by 0.5x
+    expected_status: applied
+  - say: Undo
+    expected_status: applied

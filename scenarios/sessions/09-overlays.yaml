@@ -1,0 +1,8 @@
+timeline_file: ../sample_timeline.json
+steps:
+  - say: Add a caption "Opening" at 1 second
+    expected_status: applied
+  - say: Add text overlay "Key point" from 5 seconds to 7 seconds
+    expected_status: applied
+  - say: Undo
+    expected_status: applied

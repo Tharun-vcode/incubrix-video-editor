@@ -1,0 +1,8 @@
+timeline_file: ../sample_timeline.json
+steps:
+  - say: Keep only from 2 seconds to 8 seconds
+    expected_status: applied
+  - say: Undo
+    expected_status: applied
+  - say: Redo
+    expected_status: applied

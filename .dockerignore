@@ -1,0 +1,15 @@
+.env
+.git
+.venv/
+.venv-*/
+.pytest_cache
+__pycache__
+**/__pycache__
+*.py[cod]
+*.pdf
+*.xlsx
+data/
+output/
+outputs/
+batch-output/
+session-output/

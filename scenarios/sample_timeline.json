@@ -1,0 +1,17 @@
+{
+  "duration": 12.0,
+  "words": [
+    {"id": "w1", "text": "Welcome", "start": 0.5, "end": 1.0, "speaker": "host", "confidence": 0.99},
+    {"id": "w2", "text": "to", "start": 1.05, "end": 1.2, "speaker": "host", "confidence": 0.99},
+    {"id": "w3", "text": "the", "start": 1.25, "end": 1.4, "speaker": "host", "confidence": 0.99},
+    {"id": "w4", "text": "channel", "start": 1.45, "end": 1.9, "speaker": "host", "confidence": 0.99},
+    {"id": "w5", "text": "um", "start": 2.2, "end": 2.45, "speaker": "host", "confidence": 0.92},
+    {"id": "w6", "text": "pricing", "start": 3.0, "end": 3.5, "speaker": "host", "confidence": 0.98},
+    {"id": "w7", "text": "is", "start": 3.55, "end": 3.8, "speaker": "host", "confidence": 0.99},
+    {"id": "w8", "text": "like", "start": 3.9, "end": 4.1, "speaker": "host", "confidence": 0.95},
+    {"id": "w9", "text": "cost", "start": 5.0, "end": 5.4, "speaker": "guest", "confidence": 0.97},
+    {"id": "w10", "text": "matters", "start": 5.5, "end": 6.0, "speaker": "guest", "confidence": 0.98},
+    {"id": "w11", "text": "thanks", "start": 8.0, "end": 8.5, "speaker": "host", "confidence": 0.99},
+    {"id": "w12", "text": "everyone", "start": 8.6, "end": 9.0, "speaker": "host", "confidence": 0.99}
+  ]
+}

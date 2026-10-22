@@ -1,0 +1,83 @@
+services:
+  minio:
+    image: minio/minio:RELEASE.2025-02-07T23-21-09Z
+    command: server /data --console-address ":9001"
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    restart: unless-stopped
+
+  minio-init:
+    image: minio/mc:RELEASE.2025-02-08T19-14-21Z
+    depends_on:
+      - minio
+    env_file:
+      - .env
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        until mc alias set local http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD"; do
+          sleep 1
+        done
+        mc mb --ignore-existing "local/$$S3_BUCKET"
+    restart: "no"
+
+  api:
+    build:
+      context: .
+      args:
+        INSTALL_WHISPER: ${INSTALL_WHISPER:-0}
+    env_file:
+      - .env
+    environment:
+      DATA_DIR: /data
+      DATABASE_PATH: /data/engine.sqlite3
+      OUTPUT_DIR: /data/outputs
+      S3_ENDPOINT_URL: http://minio:9000
+      STORAGE_BACKEND: s3
+    depends_on:
+      minio-init:
+        condition: service_completed_successfully
+    ports:
+      - "8000:8000"
+    volumes:
+      - engine-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready', timeout=3).read()"
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  tests:
+    build:
+      context: .
+      args:
+        INSTALL_WHISPER: "0"
+    env_file:
+      - .env
+    environment:
+      DATA_DIR: /tmp/incubrix-tests
+      DATABASE_PATH: /tmp/incubrix-tests/engine.sqlite3
+      OUTPUT_DIR: /tmp/incubrix-tests/outputs
+      STORAGE_BACKEND: filesystem
+      TRANSCRIBER: mock
+      RATE_LIMIT_PER_MINUTE: "1000"
+    command: ["python", "-m", "pytest", "-q"]
+    profiles:
+      - test
+    restart: "no"
+
+volumes:
+  engine-data:
+  minio-data:

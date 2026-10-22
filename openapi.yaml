@@ -1,0 +1,505 @@
+openapi: 3.1.0
+info:
+  title: IncuBrix Video Editing Engine
+  description: A deterministic, source-anchored prompt video-editing API. All edit
+    instructions use the current-timeline time policy. When DEMO_ACCESS_TOKEN is configured,
+    send it in X-Demo-Token.
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      tags:
+      - health
+      summary: Health
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Health Health Get
+  /ready:
+    get:
+      tags:
+      - health
+      summary: Ready
+      operationId: ready_ready_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Ready Ready Get
+  /api/v1/sessions:
+    post:
+      tags:
+      - sessions
+      summary: Create Session
+      operationId: create_session_api_v1_sessions_post
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 255
+          title: Idempotency-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionCreateRequest'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Session Api V1 Sessions Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/sessions/upload:
+    post:
+      tags:
+      - sessions
+      summary: Upload Session
+      operationId: upload_session_api_v1_sessions_upload_post
+      parameters:
+      - name: callback_url
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Callback Url
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 255
+          title: Idempotency-Key
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_session_api_v1_sessions_upload_post'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Upload Session Api V1 Sessions Upload Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/jobs/{job_id}:
+    get:
+      tags:
+      - jobs
+      summary: Get Job
+      operationId: get_job_api_v1_jobs__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Job Api V1 Jobs  Job Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/sessions/{session_id}:
+    get:
+      tags:
+      - sessions
+      summary: Get Session
+      operationId: get_session_api_v1_sessions__session_id__get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Session Api V1 Sessions  Session Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/sessions/{session_id}/timeline:
+    get:
+      tags:
+      - sessions
+      summary: Get Timeline
+      operationId: get_timeline_api_v1_sessions__session_id__timeline_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Timeline Api V1 Sessions  Session Id  Timeline
+                  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/sessions/{session_id}/timeline.otio:
+    get:
+      tags:
+      - sessions
+      summary: Get Otio Timeline
+      operationId: get_otio_timeline_api_v1_sessions__session_id__timeline_otio_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Otio Timeline Api V1 Sessions  Session Id  Timeline
+                  Otio Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/sessions/{session_id}/manifest:
+    get:
+      tags:
+      - sessions
+      summary: Get Manifest
+      operationId: get_manifest_api_v1_sessions__session_id__manifest_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Manifest Api V1 Sessions  Session Id  Manifest
+                  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/sessions/{session_id}/instructions:
+    post:
+      tags:
+      - sessions
+      summary: Apply Instruction
+      operationId: apply_instruction_api_v1_sessions__session_id__instructions_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 255
+          title: Idempotency-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstructionRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Apply Instruction Api V1 Sessions  Session Id  Instructions
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/sessions/{session_id}/render:
+    post:
+      tags:
+      - renders
+      summary: Render Session
+      operationId: render_session_api_v1_sessions__session_id__render_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 255
+          title: Idempotency-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenderRequest'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Render Session Api V1 Sessions  Session Id  Render
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+  /api/v1/files/{key}:
+    get:
+      tags:
+      - files
+      summary: Get File
+      operationId: get_file_api_v1_files__key__get
+      parameters:
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - DemoAccessToken: []
+      - {}
+components:
+  schemas:
+    Body_upload_session_api_v1_sessions_upload_post:
+      properties:
+        file:
+          type: string
+          contentMediaType: application/octet-stream
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_session_api_v1_sessions_upload_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    InstructionRequest:
+      properties:
+        instruction:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Instruction
+        answer:
+          anyOf:
+          - type: string
+            maxLength: 1000
+          - type: 'null'
+          title: Answer
+      additionalProperties: false
+      type: object
+      required:
+      - instruction
+      title: InstructionRequest
+    RenderRequest:
+      properties:
+        callback_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Callback Url
+      additionalProperties: false
+      type: object
+      title: RenderRequest
+    SessionCreateRequest:
+      properties:
+        video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Video Url
+        timeline:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Timeline
+        callback_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Callback Url
+      additionalProperties: false
+      type: object
+      title: SessionCreateRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    DemoAccessToken:
+      type: apiKey
+      in: header
+      name: X-Demo-Token

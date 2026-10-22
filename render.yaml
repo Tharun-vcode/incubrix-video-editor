@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: incubrix-video-editor
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /ready
+    envVars:
+      - key: DATA_DIR
+        value: /tmp/incubrix-data
+      - key: DATABASE_PATH
+        value: /tmp/incubrix-data/engine.sqlite3
+      - key: OUTPUT_DIR
+        value: /tmp/incubrix-data/outputs
+      - key: STORAGE_BACKEND
+        value: filesystem
+      - key: TRANSCRIBER
+        value: mock
+      - key: FFMPEG_FONT_FILE
+        value: /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+      - key: RATE_LIMIT_PER_MINUTE
+        value: "60"
+      - key: DEMO_ACCESS_TOKEN
+        generateValue: true
+      - key: CALLBACK_SECRET
+        generateValue: true

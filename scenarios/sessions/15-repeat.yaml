@@ -1,0 +1,8 @@
+timeline_file: ../sample_timeline.json
+steps:
+  - say: Cut the first 1 seconds
+    expected_status: applied
+  - say: Cut the first 1 seconds
+    expected_status: applied
+  - say: Put intro back
+    expected_status: applied

@@ -1,0 +1,8 @@
+timeline_file: ../sample_timeline.json
+steps:
+  - say: Cut from 3 seconds to 4 seconds
+    expected_status: applied
+  - say: Cut from 6 seconds to 7 seconds
+    expected_status: applied
+  - say: Undo
+    expected_status: applied

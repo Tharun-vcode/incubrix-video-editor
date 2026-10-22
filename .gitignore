@@ -1,0 +1,15 @@
+.env
+.venv/
+.venv-*/
+IncuBrix_Assessment_2_*.pdf
+IncuBrix_Assessment_2_*.xlsx
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+data/
+output/
+outputs/
+batch-output/
+session-output/
