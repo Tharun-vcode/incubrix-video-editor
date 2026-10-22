@@ -61,6 +61,10 @@ coordinates. The API and local runner share the same editing engine.
   the assessment's continuous-availability/live-review requirement.
 - API route registration and imports were previously verified in the configured
   Python environment.
+- A GitHub Actions Linux run exposed an OpenTimelineIO file-URI path handling
+  bug for Windows-style source paths; this has been corrected using
+  platform-aware URI conversion. The updated workflow must pass before treating
+  the repository CI check as green.
 - Started the FastAPI service locally and verified both `/health` and `/ready`
   returned `ok`/`ready`; the smoke-test process was stopped afterward.
 - Static diagnostics for the modified parser, engine, and regression test report

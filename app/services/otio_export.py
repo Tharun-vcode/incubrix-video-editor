@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
+import re
 from typing import Any
 from app.models.timeline import Timeline
 from app.services.timeline_engine import TimelineEngine
@@ -16,7 +17,11 @@ def export_otio(
     if media_path is None:
         target_url = ""
     else:
-        target_url = Path(media_path).resolve().as_uri()
+        media_location = str(media_path)
+        if re.match(r"^[A-Za-z]:[\\/]", media_location) or media_location.startswith("\\\\"):
+            target_url = PureWindowsPath(media_location).as_uri()
+        else:
+            target_url = Path(media_location).resolve().as_uri()
     available_range = {
         "OTIO_SCHEMA": "TimeRange.1",
         "start_time": {"OTIO_SCHEMA": "RationalTime.1", "value": 0, "rate": frame_rate},
